@@ -10,14 +10,18 @@ class Planet:
         self.size = (20, 20)
         self.movementVector = [0, 0]
         self.mass = mass * pow(10, 24)
+        self.color = color
         self.ball = c.create_oval(self.coords[0] - self.size[0] / 2, self.coords[1] - self.size[0] / 2,
                                   self.coords[0] + self.size[0] / 2, self.coords[1] + self.size[1] / 2,
-                                  fill=color)
+                                  fill=self.color)
 
     def move(self, x, y):
         self.coords[0] += x
         self.coords[1] += y
         c.move(self.ball, x, y)
+        c.create_oval(self.coords[0] - 0.5, self.coords[1] - 0.5,
+                      self.coords[0] + 0.5, self.coords[1] + 0.5,
+                      fill=self.color)
 
     def do_force(self, planets):
         for p in planets:
@@ -65,6 +69,7 @@ while True:
     for i in range(len(planet_list)):
         current_planets = planet_list.copy()
         current_planets.pop(i)
+        #planet_list[i].do_force(current_planets)
         root.after(time, planet_list[i].do_force(current_planets))
     for p in planet_list:
         p.move(p.movementVector[0], p.movementVector[1])
